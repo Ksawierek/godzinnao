@@ -5,7 +5,7 @@ import lombok.Value;
 import java.time.Duration;
 
 @Value
-class LimitDefined {
+public class LimitRedefined {
     Object employeeId;
     Duration limit;
 }
