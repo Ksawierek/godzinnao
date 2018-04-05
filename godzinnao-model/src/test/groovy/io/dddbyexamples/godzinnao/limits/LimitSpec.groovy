@@ -5,10 +5,15 @@ import spock.lang.Specification
 
 class LimitSpec extends Specification {
 
+    LimitEvents events = Mock(LimitEvents)
+
     def "new limit for an employee is defined"() {
         given: "there are not limits for the employee"
+        def subject = noLimitsDefined()
         when: "we try define limit for the employee"
+        subject.define(new EmployeeLimit())
         then: "limit is defined"
+        1 * events.emit(new LimitDefined())
     }
 
     def "new limit for a task is defined"() {
@@ -49,12 +54,12 @@ class LimitSpec extends Specification {
         throw new IllegalStateException()
     }
 
-
     def "limit 24/a day or more day for an employee cannot be created"() {
         given: "there are not limits for the employee"
         when: "we try define limit limit 24/a day the same employee"
         then: "error is raised"
     }
+
 
     def "limit 24/a day for an employee cannot be deleted"() {
 
@@ -64,6 +69,10 @@ class LimitSpec extends Specification {
         given: "limit for some employee"
         when: "we delete limit for the same employee"
         then: "default limit 24/day is defined"
+    }
+
+    private SomethingWithLimitDefinition noLimitsDefined() {
+        new SomethingWithLimitDefinition(events)
     }
 }
 
