@@ -1,0 +1,120 @@
+Building Blocks - ćwiczenia praktyczne
+
+Ćwiczenie 1: Definiowanie limitów
+Pracując w parze zaimplementuj reguły w modelu dziedziny:
+
+Limity służą temu aby zmniejszyć ilość nieprawidłowych wpisów.
+Limity są sprawdzane podczas wprowadzania godzin.
+
+W każdym projekcie jest domyślny limit 24h/dzień na użytkownika, nie można go usunąć.
+
+Można definiować własne limity:
+dzienne dla pracowników (np. 8h aby nie robili nadgodzin),
+na zadanie (np. pracownik zadeklarował, że refactor zajmie nie więcej niż 3 dni),
+na projekt (np. fix price).
+
+Limity zaczynają obowiązywać od momentu wprowadzenia dla całego projektu np.: jeśli limit do projektu wprowadzono 11.02.2018, a pracownik  dnia 12.02.2018 wprowadza godziny za 09.02.2018, to limit go obejmuje.
+
+Nie pozwalamy na dwa limity o tej samej wartości w jednym projekcie.
+
+Ćwiczenie 2: Definiowanie alertów
+Pracując w parze zaimplementuj reguły w modelu dziedziny:
+
+Alerty służą managerom do monitorowania projektów. Alerty są generowane podczas wprowadzania godzin.
+
+Można definiować własne alerty:
+dzienne / tygodniowe / miesięczne dla pracowników (np. notyfikacja o nadgodzinach),
+ina zadanie (np. na zadanie zaksięgowano więcej niż 2 dni),
+ilość godzin / procent na projekt (np. spożytkowano 80% budżetu fixed price).
+
+Alerty wysyłane są do wszystkich managerów przypisanych do projektu, niezależnie  od tego, który z nich go wprowadził.
+
+Jeśli alert wystąpi podczas definiowania (ilość godzin jest przekroczona na moment tworzenia alertu), informacja zwrotna o tym fakcie powinna być zwrócona użytkownikowi, z pytaniem czy rozgłosić alert - alert jest zdefiniowany, niezależnie czy wystąpił w tym momencie.
+
+Nie pozwalamy na dwa alerty o tych samych wartościach w jednym projekcie.
+
+Ćwiczenie 3: Monitorowanie i rozgłaszanie alertów
+Pracując w parze zaimplementuj reguły w modelu dziedziny:
+
+Alerty są generowane podczas wprowadzania godzin.
+ Alert powinien być wysłany za każdym razem, kiedy próg godzin zostanie przekroczony np.:
+Alert ustawiony na 20h, w projekcie zaraportowano 18h, gdy pracownik raportuje 3h wtedy alert zostaje wysłany.
+Alert ustawiony na 20h w projekcie zaraportowano 21h, gdy pracownik koryguje wpis z 3h na 1h a następnie raportuje 2h na inne zadane z tego projektu, wtedy alert zostaje wysłany.
+Ćwiczenie 4: Wprowadzanie godzin
+Pracując w parze zaimplementuj reguły w modelu dziedziny:
+
+Godziny można wprowadzać tylko w otwartym miesiącu.
+Format godzin powinien być poprawny.
+Zadanie, na które raportuje pracownik powinno istnieć.
+Nie pozwalamy na przekraczanie limitów.
+
+By wprowadzać godziny należy mieć rolę pracownik.
+Pracownik ma uprawnienia do projektu, w którym jest zadanie na które raportuje.
+
+Ćwiczenie 5: Zamykanie miesiąca
+Pracując w parze zaimplementuj reguły w modelu dziedziny:
+
+Zamykanie miesiąca w projekcie. W celu utrzymania spójności pomiędzy fakturą wystawioną klientowi a danymi w systemie, wprowadzamy koncepcje zamykania miesiąca.
+
+Miesiąc może zamknąć tylko manager projektu.
+Po zamknięciu nie można w zamkniętym miesiącu raportować godzin.
+
+Ostatni miesiąc można awaryjnie otworzyć np: jeśli bieżący miesiąc to luty 2018 i zamknięto już styczeń 2018 to można go awaryjnie otworzyć.
+
+Read modele i projekcje - ćwiczenia praktyczne
+
+Ćwiczenie 6: Przegląd obecnych alertów
+Pracując w parze zaimplementuj projekcję read modelu:
+
+Manager projektu może przejrzeć wszystkie obecnie występujące alerty.
+Z alertem powiązane są zadania, które wpływają na jego wystąpienie.
+
+Kiedy alert mija (np. pracownik zmniejszył błędną ilość godzin i alert już nie występuje) znika on z widoku „przegląd obecnych alertów”.
+
+Jeśli to możliwe dodaj historię wystąpień alertów wraz z powiązanymi zadaniami.
+
+Ćwiczenie 7: Przegląd godzin pracownika
+Pracując w parze zaimplementuj projekcję read modelu:
+
+Pracownik może wejść na swój przegląd godzin.
+To tygodniowe zestawienie wszystkich jego godzin z podziałem na dni.
+
+Oprócz listy jego wprowadzonych godzin widnieje na nim również:
+podsumowanie godzin na dzień,
+podsumowanie godzin na zadania,
+podsumowanie godzin na projekt.Infrastruktura - ćwiczenia praktyczne
+
+Ćwiczenie 8: Wprowadzanie godzin end-to-end
+Pracując w parze zaimplementuj przy użyciu wybranych technologii:
+
+REST API dla wprowadzania godzin, uwzględnij sytuacje wyjątkowe - jak przekroczenie limitu, czy złamanie innych reguł biznesowych.
+
+Warstwę persystencji dla wprowadzania godzin.
+
+Wykorzystaj wcześniej zaimplementowany model dzianiny.
+
+Pomiń integrację z powiązanymi kontekstami, będzie to element kolejnego zadania.
+
+Ćwiczenie 9: Context Map
+Pracując w parze:
+
+Zaproponuj Context Map pomiędzy Wprowadzaniem Godzin a Alertami.
+
+Zaproponuj Context Map pomiędzy Wprowadzaniem Godzin a Limitami, zauważ że limity
+muszą być sprawdzone przed dokonaniem zmiany w godzinach.
+
+Opracuj maksymalnie wydajną formę integracji, przy założeniu, że moduły komunikują się zdalnie po wolnym i zawodnym łączu.
+Czy może to wpłynąć na model domeny?
+
+Pracując w parze zaimplementuj:
+
+Integrację pomiędzy Wprowadzaniem Godzin, Limitami i Alertami, w formie chodzącego szkieletu (bez technologii czy przesyłu danych po kablu), jako monolit.
+
+Tak by późniejsze rozbicie na mikroserwisy wymagało przepisania co najwyżej jednej klasy na integrację dwóch modułów.
+
+Ćwiczenie 10: Persystencja dla całej aplikacji
+Pracując w grupie opracuj:
+
+Dla każdego z dotychczas programowanych obiektów dziedzinowych i read modeli, rozważ różne sposoby ich persystencji - nie sugeruj się dotychczas używaną technologią.
+
+Uzasadnij wybór / porównaj plusy i minusy poszczególnych opcji.
